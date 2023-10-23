@@ -141,9 +141,9 @@ curl --resolve test.example.com:443:127.0.0.1 https://test.example.com/
 ```
 
 # Use Vault agent to dynamically update NGINX
-That is great but this will fail to work in 720 hours as the cert only lasts for that long, we need a way to automaticly rotate this from vault, wi will use Vault Agent for this.
+That is great, but this will fail to work in 720 hours as the cert only lasts for that long. We need a way to automatically rotate this from Vault; we will use Vault Agent for this.
 
-## First let create a new approle
+## First, let's create a new approle
 ```bash
 mkdir -p /tmp/certs
 cat <<EOF > /tmp/certs/cert.policy
@@ -168,7 +168,8 @@ export ROLE_ID="$(cat /tmp/certs/role.json | jq -r .data.role_id )" && echo $ROL
 export SECRET_ID="$(cat /tmp/certs/secretid.json | jq -r .data.secret_id )" && echo $SECRET_ID |tee secretid > /tmp/certs/secretid
 ```
 
-## Setup the vault-agent
+## Setup the Vault agent
+This will setup the certs 
 ```bash
 cp vault-agent/* /tmp/certs/
 
