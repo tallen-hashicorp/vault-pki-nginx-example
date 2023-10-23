@@ -61,7 +61,7 @@ vault write pki/config/urls \
      crl_distribution_points="$VAULT_ADDR/v1/pki/crl"
 ```
 
-### Generate intermediate CA
+### Create intermediate CA
 Now, you are going to create an intermediate CA using the root CA you regenerated in the above step.
 
 ```bash
@@ -135,7 +135,7 @@ cp root_2023_ca.crt /etc/pki/ca-trust/source/anchors/
 update-ca-trust extract
 ```
 
-## Generate certs and apply to NGINX
+## Add certs to NGINX
 Now let's setup NGINX with our certs the generated certs, `nginx_private_key.pem` and `nginx_certificate_chain` in our case. First copy the certs to a sensible location
 
 ```bash
