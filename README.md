@@ -1,6 +1,3 @@
-Certainly! Here's your spell-checked markdown content:
-
-```markdown
 # vault-pki-nginx-example
 An example of using Vault PKI with an NGINX server on a Linux server.
 
@@ -143,4 +140,3 @@ curl --resolve test.example.com:443:127.0.0.1 https://test.example.com/
 ```
 
 ## Use Vault agent to dynamically update NGINX
-```
