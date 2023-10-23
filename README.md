@@ -1,5 +1,29 @@
-# vault-pki-nginx-example
-An example of using Vault PKI with an NGINX server on a Linux server.
+# Vault PKI and NGINX Example
+
+This tutorial demonstrates how to set up Vault PKI with an NGINX server on a Linux system to manage SSL/TLS certificates. The tutorial consists of the following steps:
+
+1. **Install NGINX**: Install NGINX on your Linux server.
+
+2. **Configure Vault**:
+   - Log in to Vault.
+   - Create a root certificate authority (CA).
+   - Generate an intermediate CA.
+   - Request certificates for NGINX.
+   - Verify the certificates.
+
+3. **Add Certificates to Trust Store**: Add root and intermediate certificates to your system's trust store to establish trust for certificates issued by your CA.
+
+4. **Generate Certificates and Apply to NGINX**: Set up NGINX to use the generated certificates for secure connections.
+
+5. **Test NGINX**: Verify NGINX configuration by accessing your server using the generated certificate.
+
+6. **Use Vault Agent for Certificate Renewal**: Set up Vault Agent to automatically renew certificates and update NGINX configurations.
+
+The tutorial provides detailed commands and steps for each of these processes, enabling you to secure your NGINX server with certificates from Vault.
+
+For a more in-depth explanation, follow the tutorial step-by-step. You can refer to the original tutorial for additional information and examples.
+
+[Original Tutorial](https://developer.hashicorp.com/vault/tutorials/secrets-management/pki-engine)
 
 ## Install NGINX
 The following works on Ubuntu; however, you can easily use yum if you are working on RHEL or SUSE.
