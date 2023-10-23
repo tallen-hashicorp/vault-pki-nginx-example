@@ -100,6 +100,7 @@ Now we need to tell our server that it can trust certificates generated from the
 ### Ubuntu
 ```bash
 sudo cp root_2023_ca.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
 ```
 
 ### CentOS/RHEL
@@ -140,4 +141,38 @@ curl --resolve test.example.com:443:127.0.0.1 https://test.example.com/
 ```
 
 # Use Vault agent to dynamically update NGINX
-That is great but this will fail to work in 720 hours as the cert only lasts for that long, we need a way to automaticly rotate this from vault, wi will use Vault Agent for this. 
+That is great but this will fail to work in 720 hours as the cert only lasts for that long, we need a way to automaticly rotate this from vault, wi will use Vault Agent for this.
+
+## First let create a new approle
+```bash
+mkdir -p /tmp/certs
+cat <<EOF > /tmp/certs/cert.policy
+path "pki_int/issue*" {
+  capabilities = ["create","update"]
+}
+path "auth/token/renew" {
+  capabilities = ["update"]
+}
+path "auth/token/renew-self" {
+  capabilities = ["update"]
+}
+EOF
+
+vault policy write cert-policy /tmp/certs/cert.policy
+
+vault auth enable approle
+vault write auth/approle/role/cert-role token_policies="cert-policy" secret_id_ttl=24h token_ttl=5m token_max_ttl=4h
+vault read -format=json auth/approle/role/cert-role/role-id > /tmp/certs/role.json
+vault write -format=json -f auth/approle/role/cert-role/secret-id > /tmp/certs/secretid.json
+export ROLE_ID="$(cat /tmp/certs/role.json | jq -r .data.role_id )" && echo $ROLE_ID | tee roleid > /tmp/certs/roleid
+export SECRET_ID="$(cat /tmp/certs/secretid.json | jq -r .data.secret_id )" && echo $SECRET_ID |tee secretid > /tmp/certs/secretid
+```
+
+## Setup the vault-agent
+```bash
+cp vault-agent/* /tmp/certs/
+
+export ROLE_ID="$(cat /tmp/certs/role.json | jq -r .data.role_id )" && echo $ROLE_ID | tee roleid > /tmp/certs/roleid
+export SECRET_ID="$(cat /tmp/certs/secretid.json | jq -r .data.secret_id )" && echo $SECRET_ID |tee secretid > /tmp/certs/secretid
+sudo vault agent -config=/tmp/certs/vault-agent.hcl
+```
