@@ -169,7 +169,7 @@ export SECRET_ID="$(cat /tmp/certs/secretid.json | jq -r .data.secret_id )" && e
 ```
 
 ## Setup the Vault agent
-This will setup the certs 
+This will setup the certs using Vault Agent and regenrate a new cert every 10 minutes and restart nginx to pickup the new cert. For this guide vault agent runs in the terminal and not as a deamon. Converting this to run as a service is out of the scrope of this example
 ```bash
 cp vault-agent/* /tmp/certs/
 
