@@ -24,6 +24,6 @@ auto_auth {
 
 # TLS SERVER CERTIFICATE
 template {
-  contents = "/tmp/certs/template.tmpl"
-  destination = "/etc/nginx/keys/nginx_certificate_chain.pem"
+  source = "/tmp/certs/template.tmpl"
+  destination = "/etc/nginx/keys/output"
 }

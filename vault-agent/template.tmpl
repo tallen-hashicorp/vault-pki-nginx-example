@@ -2,7 +2,9 @@
     {{- with pkiCert "pki_int/issue/example-dot-com" "common_name=test.example.com" -}}
         {{ .Cert }}{{ .CA }}{{ .Key }}
         {{ .Key | writeToFile "/etc/nginx/keys/nginx_private_key.pem" "root" "root" "0400" }}
-        {{ .CA | writeToFile "/etc/nginx/keys/nginx_certificate_chain.pem" "root" "root" "0644" }}
-        {{ .Cert | writeToFile "/etc/nginx/keys/nginx_certificate_chain.pem" "root" "root" "0644" "append" }}
+        {{ .Cert | writeToFile "/etc/nginx/keys/nginx_certificate_chain.pem" "root" "root" "0644" }}
+        {{ with secret "pki_int/cert/ca_chain" }}
+            {{ .Data.ca_chain | writeToFile "/etc/nginx/keys/nginx_certificate_chain.pem" "root" "root" "0644" "append"}}
+        {{ end }}
     {{- end -}}
 }
