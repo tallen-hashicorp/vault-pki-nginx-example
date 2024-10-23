@@ -1,5 +1,3 @@
-Sure, here's an enhanced version of your tutorial:
-
 # Vault PKI and NGINX Example
 
 This tutorial guides you through setting up Vault PKI with an NGINX server on a Linux system to manage SSL/TLS certificates. By following these steps, you will create a secure infrastructure that leverages HashiCorp Vault to handle certificate management efficiently. The tutorial is divided into the following sections:
